@@ -22,3 +22,11 @@
     border-top-right-radius: 0;
   }
   
+  .table{
+    width : 400; 
+    height : auto;
+  }
+
+  h2{
+    font-family : Sans-Serif, bold;
+  }

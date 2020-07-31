@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'EV/CSS/style.css' %}" >
+
+<div class = "posts" style= "margin-left:210;margin-right:20;">
+    <h2 style="font-family:Arial;font-weight:bold;">{{ post.title }}</h2>
+    {% if post.pub_date %}
+        <div class="date">
+            {{ post.pub_date }}
+        </div>
+    {% endif %}
+    <p>{{ post.body|linebreaks }}</p>
+    {% if post.image %}
+        <img src="{{post.image.url}}" height=400><br>
+    {% endif %}
+    {% if post.file %}
+        첨부파일 다운 : <a href="{{ post.file.url }}" download>{{ post.file.name }}</a>
+    {% endif %}
+    <p>
+    {% for t in post.tags.all %}
+        <b> #{{t.name}}</b><a href="{% url 'tag_delete' pk=post.pk tag_pk=t.pk %}">x</a>
+    {%endfor%}
+    </p>
+</div>
+
+
+
+
+<div class="container" style="display:flex; align-content: space-between;">
+    <form action="{% url 'tag_add' pk=post.pk %}" method="POST" style="margin-top:13px;margin-bottom:10px;">
+        {% csrf_token %}
+        {{tag_form.name}}
+        <input type="submit" value="해시태그 추가">
+    </form>
+    <a class="btn btn-dark" href="{% url 'edit' pk=post.pk %}" role="button" style="margin-left : 80px; margin-top:10px;margin-bottom:10px;">수정하기</a>
+    <a class="btn btn-dark" href="{% url 'delete' pk=post.pk %}" role="button" style="margin-left : 10px; margin-top:10px;margin-bottom:10px;">삭제하기</a><br><br>    
+</div>
+<hr style="color:'#BDBDBD';">
+
+<form method="POST" style= "margin-left:210;margin-right:20;margin-top:30px;">
+    {% csrf_token %}
+    <input type="text" name="text">
+    <input type="submit" value="댓글 달기">
+</form>
+<br>
+
+<div class="content" style= "margin-left:210;margin-right:20;">
+    {% for comment in comment_list %}
+    <h5>{{ comment.text|linebreaks }}</h5>
+    <p>{{ comment.created_date }}</p>
+    <a href="{% url 'delete_comment' pk=post.pk comment_pk=comment.pk %}">댓글 삭제</a><br><br>
+    {% endfor %}
+</div>
+
+
+{% endblock %}

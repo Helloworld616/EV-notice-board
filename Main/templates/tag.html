@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2 style="font-family:Arial;font-weight:bold; margin-left:200px;"> 해시태그 목록 </h2><br>
+<div class="tag" style="margin-left:200px;">
+    {% for tag in tags %}
+    <a href="{% url 'tag_detail' pk=tag.pk %}">#{{ tag.name }}</a>
+    {{tag.content_set.count}}
+    <br><br>
+    {% endfor %}    
+</div>
+
+
+{% endblock %}
