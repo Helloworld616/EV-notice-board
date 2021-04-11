@@ -24,16 +24,20 @@
     <table class="table table-striped">
         <thead>
         <tr>
+            <th>글 번호</th>
             <th>제목</th>
             <th>작성자</th>
-            <th>날짜</th>
+            <th>댓글 수</th>
+            <th>게시 날짜</th>
         </tr>
         </thead>
         <tbody>
             {% for post in posts_list %}
             <tr>
-                <th><a href="{% url 'detail' pk=post.pk %}">{{ post.title }}</a></th> 
+                <th>{{ post.pk }}</th>
+                <th><a href="{% url 'detail' pk=post.pk %}" style="color: black;">{{ post.title }}</a></th> 
                 <th>Jun</th>
+                <th>{{ post.comment_set.all|length }}</th>
                 <td>{{ post.pub_date }}</td>
             </tr>
             {% endfor %}

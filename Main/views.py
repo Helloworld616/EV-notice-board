@@ -11,19 +11,18 @@ def index(request):
 
 
 def new(request):
-     
-     if request.method == 'POST':
-         form = ContentForm(request.POST, request.FILES)
-         if form.is_valid():
-             post = form.save(commit=False)
-             post.author = request.user
-             post.published_date  = timezone.now()
-             post.save()
-             return redirect('index')
-     else :
+    if request.method == 'POST':
+        form = ContentForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.published_date  = timezone.now()
+            post.save()
+            return redirect('index')
+    else :
         form = ContentForm()
     
-     return render(request, 'new.html', {'form':form})
+    return render(request, 'new.html', {'form':form})
 
 def detail(request, pk):
     post = get_object_or_404(Content, pk=pk)
